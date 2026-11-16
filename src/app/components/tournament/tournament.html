@@ -1,0 +1,160 @@
+<div class="torneo-container">
+
+  <h1>PokéBattle</h1>
+  <h2>🏆 Torneo de Campeones</h2>
+
+  @if (estado === 'seleccion') {
+
+    <h3>Jugadores</h3>
+
+    <div class="formulario">
+      <label for="nombre1">Nombre del jugador 1</label>
+      <input id="nombre1" #nombre1 [value]="textoNombre1" placeholder="Jugador 1" maxlength="20" (input)="cambiarNombre(1, nombre1.value)">
+
+      <label for="nombre2">Nombre del jugador 2</label>
+      <input id="nombre2" #nombre2 [value]="textoNombre2" placeholder="Jugador 2" maxlength="20" (input)="cambiarNombre(2, nombre2.value)">
+    </div>
+
+    <p class="reglas">
+      Cada jugador elige 3 Pokémon. Se enfrentan en orden
+      y gana el torneo quien consiga  más victorias.
+    </p>
+
+    <app-team-selector
+      [jugador1]="jugador1"
+      [jugador2]="jugador2"
+      [deshabilitado]="cargando"
+      (equiposSeleccionados)="cargarEquipos($event)">
+    </app-team-selector>
+  }
+
+  @if (cargando) {
+    <p class="mensaje cargando">{{ textoCarga }}</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  @if (estado === 'preparado') {
+
+    <h3>Equipos participantes</h3>
+
+    <div class="equipos">
+
+      <div class="equipo">
+        <h3>{{ jugador1 }}</h3>
+        @for (pokemon of equipo1; track pokemon.id) {
+          <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+        }
+      </div>
+
+      <div class="equipo">
+        <h3>{{ jugador2 }}</h3>
+        @for (pokemon of equipo2; track pokemon.id) {
+          <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+        }
+      </div>
+
+    </div>
+
+    <button (click)="iniciarTorneo()">¡Comenzar torneo!</button>
+    <button class="secundario" (click)="nuevoTorneo()">Cambiar equipos</button>
+  }
+
+  @if (estado === 'combate') {
+
+    <h3>Combate {{ ronda }} de 3</h3>
+
+    <div class="marcador">
+      <span>{{ jugador1 }}: {{ victorias1 }}</span>
+      <span>{{ jugador2 }}: {{ victorias2 }}</span>
+    </div>
+
+    <div class="arena">
+
+      <div class="combatiente" [class.activo]="turno === 1 && !combateTerminado">
+        <small>{{ jugador1 }}</small>
+        <app-pokemon-card
+          [pokemon]="pokemon1"
+          [vida]="vida1"
+          [vidaMaxima]="obtenerEstadistica(pokemon1, 'hp')"
+          [grande]="true">
+        </app-pokemon-card>
+      </div>
+
+      <h2>VS</h2>
+
+      <div class="combatiente" [class.activo]="turno === 2 && !combateTerminado">
+        <small>{{ jugador2 }}</small>
+        <app-pokemon-card
+          [pokemon]="pokemon2"
+          [vida]="vida2"
+          [vidaMaxima]="obtenerEstadistica(pokemon2, 'hp')"
+          [grande]="true">
+        </app-pokemon-card>
+      </div>
+
+    </div>
+
+    @if (mensaje) {
+      <p class="mensaje">{{ mensaje }}</p>
+    }
+
+    @if (!combateTerminado) {
+
+      @if (movimientosTurno.length > 0) {
+        <h3>{{ nombreTurno }}, elige un ataque:</h3>
+
+        <div class="movimientos">
+          @for (movimiento of movimientosTurno; track movimiento.id) {
+            <button
+              class="movimiento"
+              [class]="'tipo-' + movimiento.type.name"
+              (click)="atacar(movimiento)"
+              [disabled]="cargando">
+              <strong>{{ nombreMovimiento(movimiento) }}</strong>
+              <small>
+                {{ movimiento.type.name }} · Poder {{ movimiento.power ?? '-' }}
+                · Precisión {{ movimiento.accuracy ?? '100' }}%
+              </small>
+            </button>
+          }
+        </div>
+      } @else if (!cargando) {
+        <button (click)="iniciarCombate()">Reintentar cargar ataques</button>
+      }
+
+    } @else if (ronda < 3) {
+      <button (click)="siguienteCombate()">Siguiente combate</button>
+    }
+
+    <h3>Historial de batalla</h3>
+
+    <div class="historial-lista">
+      @for (evento of historial; track $index) {
+        <p class="historial">{{ evento }}</p>
+      } @empty {
+        <p class="vacio">Todavía no hay ataques.</p>
+      }
+    </div>
+  }
+
+  @if (estado === 'finalizado') {
+
+    <h2> ¡Torneo finalizado!</h2>
+
+    <h3>{{ mensaje }}</h3>
+
+    <div class="marcador">
+      <span>{{ jugador1 }}: {{ victorias1 }} victorias</span>
+      <span>{{ jugador2 }}: {{ victorias2 }} victorias</span>
+    </div>
+
+    <button (click)="nuevoTorneo()">Nuevo torneo</button>
+
+    
+
+  }
+
+</div>

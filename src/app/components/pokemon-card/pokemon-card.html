@@ -1,0 +1,22 @@
+<div class="tarjeta" [class.grande]="grande">
+
+  <h3>{{ pokemon.name | titlecase }}</h3>
+
+  <img [src]="imagen" [alt]="pokemon.name">
+
+  <div class="tipos">
+    @for (tipo of pokemon.types; track tipo.type.name) {
+      <span class="tipo" [class]="'tipo-' + tipo.type.name">{{ tipo.type.name }}</span>
+    }
+  </div>
+
+  @if (vida !== null) {
+    <p>Vida: {{ vida }} / {{ vidaMaxima }}</p>
+    <progress
+      [value]="vida"
+      [max]="vidaMaxima"
+      [class.baja]="porcentajeVida <= 25">
+    </progress>
+  }
+
+</div>

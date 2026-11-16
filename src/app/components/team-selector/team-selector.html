@@ -1,0 +1,82 @@
+<section class="selector">
+
+  <h3>Selecciona los Pokémon</h3>
+
+  @if (!completo) {
+    <p class="turno">
+      Turno de <strong>{{ turno === 1 ? jugador1 : jugador2 }}</strong>:
+      elige {{ 3 - (turno === 1 ? seleccionJugador1.length : seleccionJugador2.length) }} Pokémon más.
+    </p>
+  }
+
+  <div class="equipos-seleccion">
+
+    <div class="equipo-seleccion" [class.activo]="turno === 1 && !completo">
+      <strong>{{ jugador1 }} ({{ seleccionJugador1.length }}/3)</strong>
+      <div class="chips">
+        @for (nombre of seleccionJugador1; track nombre) {
+          <button class="chip" (click)="quitarPokemon(1, nombre)" [disabled]="deshabilitado" title="Quitar">
+            {{ nombre | titlecase }} ✕
+          </button>
+        } @empty {
+          <span class="vacio">Sin Pokémon todavía</span>
+        }
+      </div>
+    </div>
+
+    <div class="equipo-seleccion" [class.activo]="turno === 2 && !completo">
+      <strong>{{ jugador2 }} ({{ seleccionJugador2.length }}/3)</strong>
+      <div class="chips">
+        @for (nombre of seleccionJugador2; track nombre) {
+          <button class="chip" (click)="quitarPokemon(2, nombre)" [disabled]="deshabilitado" title="Quitar">
+            {{ nombre | titlecase }} ✕
+          </button>
+        } @empty {
+          <span class="vacio">Sin Pokémon todavía</span>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  @if (seleccionJugador1.length > 0 || seleccionJugador2.length > 0) {
+    <button class="secundario" (click)="reiniciarSeleccion()" [disabled]="deshabilitado">
+      Reiniciar selección
+    </button>
+  }
+
+  <input
+    #buscador
+    type="text"
+    placeholder="Buscar Pokémon por nombre..."
+    [value]="busqueda"
+    (input)="busqueda = buscador.value">
+
+  @if (cargandoCatalogo) {
+    <p class="mensaje">Cargando catálogo de Pokémon...</p>
+  } @else if (errorCatalogo) {
+    <p class="error">{{ errorCatalogo }}</p>
+    <button (click)="cargarCatalogo()">Reintentar</button>
+  } @else {
+    <div class="catalogo">
+
+      @for (pokemon of pokemonFiltrados(); track pokemon.name) {
+
+        <button
+          class="tarjeta-pokemon"
+          (click)="seleccionarPokemon(pokemon.name)"
+          [disabled]="estaSeleccionado(pokemon.name) || completo || deshabilitado">
+
+          <img [src]="obtenerImagen(pokemon.url)" [alt]="pokemon.name" loading="lazy">
+          <strong>{{ pokemon.name | titlecase }}</strong>
+
+        </button>
+
+      } @empty {
+        <p class="error">No encontramos ningún Pokémon con "{{ busqueda }}".</p>
+      }
+
+    </div>
+  }
+
+</section>

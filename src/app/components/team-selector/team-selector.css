@@ -1,0 +1,85 @@
+.turno {
+  font-size: 18px;
+}
+
+.equipos-seleccion {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.equipo-seleccion {
+  flex: 1;
+  min-width: 220px;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+}
+
+.equipo-seleccion.activo {
+  border-color: #e63946;
+  background: #fff5f5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 20px;
+}
+
+.vacio {
+  color: #888;
+  font-size: 14px;
+}
+
+input[type="text"] {
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.tarjeta-pokemon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: white;
+  color: #333;
+  transition: transform 0.15s;
+}
+
+.tarjeta-pokemon img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.tarjeta-pokemon:hover:not(:disabled) {
+  transform: scale(1.05);
+  border-color: #e63946;
+  filter: none;
+}
+
+.tarjeta-pokemon:disabled {
+  opacity: 0.4;
+}

@@ -1,1 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos generales compartidos por todos los componentes */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background: #fafafa;
+}
+
+h1 {
+  color: #e63946;
+  font-size: 42px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+button {
+  padding: 13px 20px;
+  margin: 10px;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(0.88);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.secundario {
+  background-color: #6c757d;
+}
+
+.mensaje {
+  color: #457b9d;
+  font-weight: bold;
+}
+
+.error {
+  color: #d00000;
+  font-weight: bold;
+}
+
+.vacio {
+  color: #888;
+}
