@@ -4,8 +4,8 @@ Aplicación web hecha con Angular para la Práctica 02.1 de Programación y Plat
 
 PokéAPI solo entrega los datos (estadísticas, tipos y movimientos), así que las reglas de la batalla las programé yo dentro de la app.
 
-**Sitio desplegado:** 
-**Repositorio:**
+**Sitio desplegado:** https://angular-poke-api-sand.vercel.app
+**Repositorio:** https://github.com/ThaliaSagbay/Angular_PokeAPI 
 
 ## ¿Qué se puede hacer?
 
@@ -75,8 +75,8 @@ Las peticiones se hacen con `HttpClient` de Angular. No hay backend propio ni ba
 Necesitas tener instalado [Node.js](https://nodejs.org/) (versión 20.19 o superior) y npm.
 
 ```bash
-git clone 
-cd pokebattle
+git clone https://github.com/ThaliaSagbay/Angular_PokeAPI.git
+cd Angular_PokeAPI
 npm install
 npm start
 ```
